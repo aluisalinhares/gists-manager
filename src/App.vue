@@ -7,7 +7,7 @@
 </template>
 
 <script>
-const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID;
+const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID
 /* const clientSecret = process.env.VUE_APP_GITHUB_CLIENT_SECRET */;
 
 export default {
@@ -18,11 +18,11 @@ export default {
       // Redirect to GitHub authorization endpoint
       window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}=user`;
     },
-    async handleCallback() {
+    /* async handleCallback() {
       console.log("handleCallback called")
       const code = new URLSearchParams(window.location.search).get('code');
       console.log("code", code);
-      /* 
+      
       const response = await fetch(`https://github.com/login/oauth/access_token?client_id=${clientId}&code=${code}`, {
         method: 'POST',
         headers: {
@@ -38,11 +38,11 @@ export default {
 
       const data = await response.json();
       const accessToken = data.access_token;
-      console.log('Access token received:', accessToken); */
+      console.log('Access token received:', accessToken); 
     },
     mounted() {
       this.handleCallback();
-    }
+    }*/
 
   }
 }
