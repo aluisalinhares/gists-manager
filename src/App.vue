@@ -9,7 +9,7 @@
 <script>
 const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID
 /* const clientSecret = process.env.VUE_APP_GITHUB_CLIENT_SECRET */;
-
+console.log("here: ", process.env)
 export default {
   name: 'App',
   methods: {
