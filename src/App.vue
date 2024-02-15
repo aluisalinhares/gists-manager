@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/store';
 const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID
 const clientSecret = process.env.VUE_APP_GITHUB_CLIENT_SECRET
 
@@ -16,17 +17,16 @@ export default {
   methods: {
     async login() {
       console.log("login called")
-      debugger
       // Redirect to GitHub authorization endpoint
       window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user`;
-      
+
     },
     async handleCallback() {
       console.log("handleCallback called")
       const code = new URLSearchParams(window.location.search).get('code');
       console.log("code", code);
-      
-       const response = await fetch(`https://github.com/login/oauth/access_token?client_id=${clientId}&code=${code}`, {
+
+      const response = await fetch(`https://github.com/login/oauth/access_token?client_id=${clientId}&code=${code}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,13 +40,19 @@ export default {
       });
 
       const data = await response.json();
-      debugger
       const accessToken = data.access_token;
-      console.log('Access token received:', accessToken);  
+      // Save access token to local storage
+      localStorage.setItem('accessToken', accessToken);
+
+      // Redirect to home page or wherever you need to go after authentication
+      window.location.href = '/test';
+      useAuthStore().setAccessToken(accessToken); // Save access token to store
     },
     mounted() {
-      console.log("mounted called")
-      this.handleCallback();
+      if (window.location.search.includes('code')) {
+        console.log("includes code")
+        this.handleCallback();
+      }
     }
 
   }
