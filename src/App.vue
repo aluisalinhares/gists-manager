@@ -6,14 +6,42 @@
 </template>
 
 <script>
+const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID;
+const clientSecret = process.env.VUE_APP_GITHUB_CLIENT_SECRET;
 
 export default {
   name: 'App',
   methods: {
     async login() {
+      console.log("login called")
       // Redirect to GitHub authorization endpoint
-      window.location.href = `https://github.com/login/oauth/authorize?client_id=d9e20d499a3894452cdd&scope=user`;
+      window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}=user`;
+    },
+    async handleCallback() {
+      console.log("handleCallback called")
+      const code = new URLSearchParams(window.location.search).get('code');
+
+      const response = await fetch(`https://github.com/login/oauth/access_token?client_id=${clientId}&code=${code}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          client_id: clientId,
+          client_secret: clientSecret,
+          code: code
+        })
+      });
+
+      const data = await response.json();
+      const accessToken = data.access_token;
+      console.log('Access token received:', accessToken);
+    },
+    mounted() {
+      this.handleCallback();
     }
+
   }
 }
 </script>
