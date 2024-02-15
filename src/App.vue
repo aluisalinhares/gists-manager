@@ -2,6 +2,7 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <button @click="login">Login with GitHub</button>
+    <div>new</div>
   </div>
 </template>
 
