@@ -27,49 +27,45 @@ export default {
       window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user`;
     },
     async handleCallback() {
-      console.log("handleCallback called")
-      const code = new URLSearchParams(window.location.search).get('code');
-      console.log("code", code);
+      console.log("handleCallback!!")
+      try {
+        const code = new URLSearchParams(window.location.search).get('code');
+        console.log("code: ", code)
 
-      const fetchOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          client_id: clientId,
-          client_secret: clientSecret,
-          code: code
-        })
-      };
+        const response = await fetch('/api/access_token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            client_id: clientId,
+            client_secret: clientSecret,
+            code: code
+          })
+        });
 
-      const response = await fetch(`https://github.com/login/oauth/access_token`, {
-        method: 'POST',
-        headers: {
+        // Check if the response is OK
+        if (!response.ok) {
+          throw new Error('Failed to fetch access token');
+        }
 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          client_id: clientId,
-          client_secret: clientSecret,
-          code: code
-        })
-      });
+        // Extract JSON data from the response
+        const responseData = await response.json();
 
-      console.log("response: ", response)
+        // Access the access_token property
+        const accessToken = responseData.access_token;
+        console.log("access_token:", accessToken);
+        
+        localStorage.setItem('accessToken', accessToken);
+        // Redirect to home page or wherever you need to go after authentication
 
-      const data = await response.json();
-      console.log("data: ", data)
-      const accessToken = data.access_token;
-      console.log("accessToken", accessToken);
-      // Save access token to local storage
-      localStorage.setItem('accessToken', accessToken);
+        useAuthStore().setAccessToken(accessToken); // Save access token to store
 
-      // Redirect to home page or wherever you need to go after authentication
-      window.location.href = '/test';
-      useAuthStore().setAccessToken(accessToken); // Save access token to store
+      } catch (error) {
+        console.log("error fetching: ", error)
+      }
+
     }
   }
 }
