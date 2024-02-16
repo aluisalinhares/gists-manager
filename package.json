@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "deploy": "gh-pages -d dist",
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve --mode development",
+    "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "cors-anywhere": "^0.4.4",
     "pinia": "^2.1.7",
     "tailwindcss": "^3.4.1",
     "vue": "^3.2.13",
