@@ -35,8 +35,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': personalAccessToken ? `token ${personalAccessToken}` : null  // Use personal access token if available
+          'Accept': 'application/json'
         },
         body: JSON.stringify({
           client_id: clientId,
@@ -59,7 +58,10 @@ export default {
         })
       });
 
+      console.log("response: ", response)
+
       const data = await response.json();
+      console.log("data: ", data)
       const accessToken = data.access_token;
       console.log("accessToken", accessToken);
       // Save access token to local storage
