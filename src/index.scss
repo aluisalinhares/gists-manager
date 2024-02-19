@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'styles/fonts';
+@import 'styles/base';
+@import 'styles/components';
+
+/* Colors */
+:root {
+  /* Primary Color */
+  --primary: #4caf50;
+  --primary-dark: #388e3c;
+  --primary-light: #81c784;
+
+  /* Secondary Color */
+  --secondary: #2196f3;
+  --secondary-dark: #1976d2;
+  --secondary-light: #64b5f6;
+
+  /* Accent Color */
+  --accent: #ffc107;
+  --accent-dark: #ffa000;
+  --accent-light: #ffd54f;
+
+  /* Background Colors */
+  --background: #ffffff;
+  --background-dark: #f5f5f5;
+  --background-light: #fafafa;
+
+  /* Text Colors */
+  --text: #212121;
+  --text-light: #757575;
+  --text-dark: #000000;
+
+  /* Error Color */
+  --error: #ff5722;
+  --error-dark: #e64a19;
+  --error-light: #ff8a65;
+}
+
+
+

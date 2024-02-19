@@ -4,19 +4,33 @@
     <button @click="login">Login with GitHub</button>
   </div>
 </template>
-  
+
 <script>
-const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID
+import { useAuthStore } from '@/store';
+import { useRouter } from 'vue-router';
+
 export default {
   name: 'LoginPage',
-  methods: {
-    async login() {
-      window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user`;
+  setup() {
+    const authStore = useAuthStore();
+    const router = useRouter();
+
+    if(authStore.isAuthenticated){
+      router.push('/');
     }
+
+    const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID;
+    const login = () => {
+      window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user,gist`;
+    };
+
+    return {
+      login
+    };
   }
 }
 </script>
-  
+
 <style scoped>
 /* Add your login page styles here */
 </style>

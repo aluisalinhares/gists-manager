@@ -1,19 +1,20 @@
-// authService.js
 
-// Function to fetch access token from GitHub OAuth endpoint
-async function fetchAccessToken(clientId, clientSecret, code) {
+
+const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID;
+const clientSecret = process.env.VUE_APP_GITHUB_CLIENT_SECRET;
+export async function fetchAccessToken(code) {
     try {
       const response = await fetch('/api/access_token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           client_id: clientId,
           client_secret: clientSecret,
-          code: code
-        })
+          code: code,
+        }),
       });
   
       if (!response.ok) {
@@ -23,12 +24,7 @@ async function fetchAccessToken(clientId, clientSecret, code) {
       const responseData = await response.json();
       return responseData.access_token;
     } catch (error) {
-      throw new Error('Error fetching access token: ' + error.message);
+      console.error('Error fetching access token:', error);
+      throw error;
     }
   }
-  
-  // Export the authService functions
-  export default {
-    fetchAccessToken
-  };
-  

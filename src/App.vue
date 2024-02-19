@@ -5,57 +5,44 @@
 </template>
 
 <script>
+import { onMounted } from 'vue';
 import { useAuthStore } from '@/store';
-
-const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID
-const clientSecret = process.env.VUE_APP_GITHUB_CLIENT_SECRET
+import { fetchAccessToken } from '@/utils/auth';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'App',
-  mounted() {
-    if (window.location.search.includes('code')) {
-      this.handleCallback();
-    }
-  },
-  methods: {
-    async handleCallback() {
+  setup() {
+    const authStore = useAuthStore();
+    const router = useRouter();
+
+    onMounted(() => {
+      authStore.initializeAccessToken();
+
+      if (window.location.search.includes('code')) {
+        handleCallback();
+      }
+    });
+
+
+    async function handleCallback() {
       try {
         const code = new URLSearchParams(window.location.search).get('code');
-
-        const response = await fetch('/api/access_token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            client_id: clientId,
-            client_secret: clientSecret,
-            code: code
-          })
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch access token');
-        }
-
-
-        const responseData = await response.json();
-        const accessToken = responseData.access_token;
-        /* localStorage.setItem('accessToken', accessToken); */
-        useAuthStore().login(accessToken);
-
-        // Redirect to the home page after successful login
-        this.$router.push('/');
+        const accessToken = await fetchAccessToken(code);
+        authStore.login(accessToken);
+        router.push('/');
       } catch (error) {
-        console.log("Error fetching access token: ", error)
+        console.log('Error fetching access token:', error);
       }
     }
+
+    return {};
   }
-}
+};
 </script>
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

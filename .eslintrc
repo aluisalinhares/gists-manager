@@ -20,6 +20,8 @@
       {
         "x-invalid-end-tag": false
       }
-    ]
+    ],
+    "eslintvue/singleline-html-element-content-newline": "off",
+    "eslintvue/max-attributes-per-line": "off"
   }
 }
