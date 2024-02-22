@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <h1>Login</h1>
-    <button @click="login">Login with GitHub</button>
+  <div class="flex items-center justify-center h-screen">
+    <button class="github-btn" @click="login">Login with GitHub</button>
   </div>
 </template>
 
@@ -15,7 +14,7 @@ export default {
     const authStore = useAuthStore();
     const router = useRouter();
 
-    if(authStore.isAuthenticated){
+    if (authStore.isAuthenticated) {
       router.push('/');
     }
 
@@ -32,5 +31,15 @@ export default {
 </script>
 
 <style scoped>
-/* Add your login page styles here */
-</style>
+.github-btn {
+  background-color: #24292e;
+  color: #ffffff;
+  padding: 0.75rem 2rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.github-btn:hover {
+  background-color: #181c20;
+}</style>
