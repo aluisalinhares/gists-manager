@@ -7,9 +7,11 @@
       <TopBar page-title="Edit Gist" />
       <div
         v-if="gist"
-        class="container mx-auto md:px-20 md:py-8 px-10 py-4"
+        class="container mx-auto mt-[70px] md:px-20 md:py-8 px-10 py-4"
       >
-        <h2 class="inline-block w-full sm:w-1/2 pr-7">Editing {{ gist.description || 'Untitled' }} </h2>
+        <h2 class="inline-block w-full sm:w-1/2 pr-7">
+          Editing {{ gist.description || 'Untitled' }}
+        </h2>
         <IconButton
           icon-class="fa-regular fa-floppy-disk"
           label="Save"

@@ -1,13 +1,19 @@
 <template>
-    <button :class="[buttonClasses,
-        'icon-button',
-        border ? `icon-button--border-${color || 'default'}` : '',
-        color ? `icon-button--${color}` : 'icon-button--default']" @click="handleClick">
-        <i :class="[iconClass, iconSizeClass]" />
-        <div v-if="label" :class="[labelSizeClass, 'pl-1']">
-            {{ label }}
-        </div>
-    </button>
+  <button
+    :class="[buttonClasses,
+             'icon-button',
+             border ? `icon-button--border-${color || 'default'}` : '',
+             color ? `icon-button--${color}` : 'icon-button--default']"
+    @click="handleClick"
+  >
+    <i :class="[iconClass, iconSizeClass]" />
+    <div
+      v-if="label !== undefined"
+      :class="[labelSizeClass, 'pl-1']"
+    >
+      {{ label }}
+    </div>
+  </button>
 </template>
   
 <script>

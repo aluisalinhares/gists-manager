@@ -3,13 +3,19 @@
     <div v-if="isLoading">
       <PageLoader />
     </div>
-    <div v-else class="gistList">
+    <div
+      v-else
+      class="gistList"
+    >
       <TopBar />
-      <div class="container mx-auto md:px-20 md:py-8 px-10 py-4">
+      <div class="container mx-auto mt-[70px] md:px-20 md:py-8 px-10 py-4">
         <div>
           <div class="gistList__header flex items-center">
             <h2>All gists</h2>
-            <div v-if="!!countGists" class="counter rounded-full w-6 h-6 flex justify-center items-center ml-2">
+            <div
+              v-if="!!countGists"
+              class="counter rounded-full w-6 h-6 flex justify-center items-center ml-2"
+            >
               <span class="text-white">{{ countGists }}</span>
             </div>
           </div>
@@ -18,24 +24,35 @@
           </div>
         </div>
         <ul>
-          <li v-for="gist in gists" :key="gist.id">
+          <li
+            v-for="gist in gists"
+            :key="gist.id"
+          >
             <div class="flex flex-col md:flex-row justify-between py-2">
               <div class="pt-2">
-                <router-link :to="{ name: 'GistDetail', params: { id: gist.id } }">{{ Object.keys(gist.files)[0] ||
-                  'Untitled' }}</router-link>
+                <router-link :to="{ name: 'GistDetail', params: { id: gist.id } }">
+                  {{ Object.keys(gist.files)[0] ||
+                    'Untitled' }}
+                </router-link>
                 <p>{{ formatDate(gist.created_at) }}</p>
                 <p>{{ gist.description || 'Untitled' }}</p>
               </div>
               <div class="flex gap-5">
-                <IconButton iconClass="far fa-file" label="20" size="sm" />
-                <IconButton iconClass="far fa-comment" label="20" size="sm" />
-                <IconButton iconClass="fa-regular fa-star" label="20" size="sm" />
+                <IconButton
+                  icon-class="far fa-file"
+                  :label="getCount(gist.files)"
+                  size="sm"
+                />
+                <IconButton
+                  icon-class="far fa-comment"
+                  :label="gist.comments"
+                  size="sm"
+                />
               </div>
             </div>
           </li>
         </ul>
       </div>
-
     </div>
   </div>
 </template>
@@ -75,6 +92,7 @@ export default {
 
         gists.value = gistsData;
         countGists.value = gistsData.length;
+
       } catch (error) {
         console.error('Error fetching user Gists:', error);
       }
@@ -90,7 +108,9 @@ export default {
       const diff = now.getTime() - createdDate.getTime();
       const diffInHours = diff / (1000 * 60 * 60);
 
-      if (diffInHours < 24) {
+      if (diffInHours === 0) {
+        return `Created now`;
+      } else if (diffInHours < 24) {
         return `Created ${Math.round(diffInHours)} hours ago`;
       } else if (diffInHours > 48) {
         return 'Created yesterday'
@@ -100,7 +120,17 @@ export default {
       }
     };
 
-    return { gists, userData, countGists, getFileNames, formatDate, isLoading };
+    const getCount = (obj) => {
+      if (Array.isArray(obj)) {
+        return obj.length;
+      } else if (typeof obj === 'object' && obj !== null) {
+        return Object.keys(obj).length;
+      } else {
+        return 0;
+      }
+    }
+
+    return { gists, userData, countGists, getFileNames, formatDate, isLoading, getCount };
   },
 };
 </script>

@@ -17,7 +17,6 @@
     width: 18px;
     height: 18px;
     background: #14213D;
-    /* Change the color to match your theme */
     border-radius: 50%;
     margin: 0 6px;
     animation: lds-bounce 0.6s infinite ease-in-out;

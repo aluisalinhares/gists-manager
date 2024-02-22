@@ -7,7 +7,7 @@
       <TopBar page-title="Gist Detail" />
       <div
         v-if="gist"
-        class="container mx-auto md:px-20 md:py-8 px-10 py-4"
+        class="container mx-auto mt-[70px] md:px-20 md:py-8 px-10 py-4"
       >
         <div class="inline-block sm:block">
           <h2 class="inline-block pr-7">
