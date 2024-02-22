@@ -1,6 +1,11 @@
 <template>
   <div class="flex items-center justify-center h-screen">
-    <button class="github-btn" @click="login">Login with GitHub</button>
+    <button
+      class="github-btn"
+      @click="login"
+    >
+      Login with GitHub
+    </button>
   </div>
 </template>
 

@@ -4,10 +4,10 @@
     class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50"
   >
     <div class="bg-white p-8 rounded-lg">
-      <h2 class="text-lg font-semibold mb-4">
+      <h2 class="text-lg">
         Are you sure you want to delete this gist?
       </h2>
-      <div class="flex justify-end">
+      <div class="flex justify-end mt-3">
         <button
           class="bg-red-500 text-white px-4 py-2 rounded mr-2"
           @click="confirm"
@@ -51,6 +51,6 @@ export default {
 </script>
   
 <style scoped>
-/* Add your custom styles here */
+
 </style>
   

@@ -1,16 +1,16 @@
 <template>
-    <div>
-      <p>{{ filename }}</p>
-      <v-ace-editor
-        :value="editorContent"
-        @input="updateContent"
-        @init="editorInit"
-        :mode="mode"
-        theme="chrome"
-        style="height: 300px"
-      />
-    </div>
-  </template>
+  <div>
+    <p>{{ filename }}</p>
+    <v-ace-editor
+      :value="editorContent"
+      :mode="mode"
+      theme="chrome"
+      style="height: 300px"
+      @input="updateContent"
+      @init="editorInit"
+    />
+  </div>
+</template>
     
   <script>
   import { ref } from 'vue';
