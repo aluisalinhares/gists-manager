@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import GistList from '@/views/GistList.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import GistDetail from '@/views/GistDetail.vue'; 
+import EditGist from '@/views/EditGist.vue';
 import { useAuthStore } from '@/store';
 
 const routes = [
@@ -20,6 +21,11 @@ const routes = [
     path: '/gist/:id',
     name: 'GistDetail',
     component: GistDetail
+  },
+  {
+    path: '/gist/:id/edit',
+    name: 'EditGist',
+    component: EditGist
   }
 ];
 
@@ -32,16 +38,13 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Check if the route requires authentication
-    console.log("here: ", authStore.isAuthenticated)
     if (!authStore.isAuthenticated) {
-      // Redirect to login if not authenticated
       next('/login');
     } else {
-      next(); // Proceed to the route
+      next();
     }
   } else {
-    next(); // Proceed to the route
+    next();
   }
 });
 

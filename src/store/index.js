@@ -1,19 +1,19 @@
-// store/index.js
-
 import { defineStore } from 'pinia';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     isAuthenticated: false,
     accessToken: '',
-    gists: [],
-    gistDetail: {}
+    userData: {},
+    loading: false
   }),
   actions: {
     initializeAccessToken() {
       const storedAccessToken = localStorage.getItem('accessToken');
+      const userData = localStorage.getItem('userData');
       this.accessToken = storedAccessToken || '';
       this.isAuthenticated = !!storedAccessToken;
+      this.userData = userData? JSON.parse(userData) : {};
     },
     login(accessToken) {
       this.$patch(state => {
@@ -23,17 +23,21 @@ export const useAuthStore = defineStore('auth', {
 
       localStorage.setItem('accessToken', accessToken);
     },
-    setGists(gists) { 
-      this.gists = gists;
+    setUserData(userData) {
+      this.userData = userData;
+      localStorage.setItem('userData', JSON.stringify(userData));
     },
-    setGistDetail(gist){
-      this.gistDetail = gist;
+    setLoading(loading) { 
+      this.loading = loading;
     }
   },
   getters: {
-    getGists() {
-      return this.gists;
+    isLoading() { 
+      return this.loading;
     },
+    getUserData(){
+      return this.userData;
+    }
   },
 });
 
