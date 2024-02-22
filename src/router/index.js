@@ -20,7 +20,7 @@ const routes = [
   {
     path: '/gist/:id',
     name: 'GistDetail',
-    component: GistDetail
+    component: GistDetail 
   },
   {
     path: '/gist/:id/edit',
@@ -30,7 +30,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes
 });
 
