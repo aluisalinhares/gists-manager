@@ -5,7 +5,7 @@ export async function fetchAccessToken(code) {
   try {
     const url =
       environment === "production"
-        ? "https://gists-manager-be.netlify.app/.netlify/functions/server/api/access_token"
+        ? "https://gists-backend.netlify.app/.netlify/functions/api/accesstoken"
         : "/api/access_token";
     const response = await fetch(url, {
       method: "POST",
@@ -19,6 +19,8 @@ export async function fetchAccessToken(code) {
         code: code,
       }),
     });
+
+    debugger
 
     if (!response.ok) {
       throw new Error("Failed to fetch access token");
