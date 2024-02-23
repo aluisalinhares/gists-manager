@@ -46,12 +46,7 @@ export async function fetchGists() {
   const timestamp = new Date().getTime();
   let url = environment === 'production' ? prodEndpoints.getGists : devEndpoints.getGists;
   url = `${url}?timestamp=${timestamp}`;
-  const options = {
-    headers: {
-      'Cache-Control': 'no-cache'
-    },
-  };
-  return await fetchWithLoadingState(url, options);
+  return await fetchWithLoadingState(url, {});
 }
 
 export async function fetchGistDetail(id) {
