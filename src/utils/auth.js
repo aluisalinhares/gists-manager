@@ -1,6 +1,5 @@
 const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID;
 const clientSecret = process.env.VUE_APP_GITHUB_CLIENT_SECRET;
-import { devEndpoints, prodEndpoints } from "./endpoints";
 
 export async function fetchAccessToken(code) {
   try {

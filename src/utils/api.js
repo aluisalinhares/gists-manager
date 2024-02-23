@@ -37,12 +37,12 @@ async function fetchWithLoadingState(url, options = {}) {
   }
 }
 
-export async function fetchUser(accessToken) {
+export async function fetchUser() {
   const url = environment === 'production' ? prodEndpoints.getUser : devEndpoints.getUser;
   return await fetchWithLoadingState(url, {});
 }
 
-export async function fetchGists(accessToken) {
+export async function fetchGists() {
   const timestamp = new Date().getTime();
   let url = environment === 'production' ? prodEndpoints.getGists : devEndpoints.getGists;
   url = `${url}?timestamp=${timestamp}`;
