@@ -20,8 +20,6 @@ export async function fetchAccessToken(code) {
       }),
     });
 
-    debugger
-
     if (!response.ok) {
       throw new Error("Failed to fetch access token");
     }

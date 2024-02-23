@@ -58,7 +58,7 @@ export async function fetchGistDetail(id) {
 
 export async function editGist(id, updatedFiles){
   const toast = useToast();
-  let url = environment === 'production' ? prodEndpoints.getGists : devEndpoints.getGists;
+  let url = environment === 'production' ? prodEndpoints.editGists : devEndpoints.getGists;
   url = `${url}/${id}`;
   const options = {
     method: 'PATCH',
