@@ -1,16 +1,26 @@
-const accessToken = localStorage.getItem("accessToken");
 import { useAuthStore } from "@/store";
 import { useToast } from "vue-toastification";
+import { devEndpoints, prodEndpoints } from "./endpoints";
+const environment = process.env.NODE_ENV;
 
 async function fetchWithLoadingState(url, options = {}) {
   const toast = useToast();
   try {
-    useAuthStore().setLoading(true);
-    const response = await fetch(url, options);
+    const authStore = useAuthStore();
+    const accessToken = authStore.accessToken;
+    authStore.setLoading(true);
+    const requestOptions = {
+      ...options,
+      headers: {
+        ...options.headers,
+        Authorization: `token ${accessToken}`,
+      },
+    };
+    const response = await fetch(url, requestOptions);
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }
-    useAuthStore().setLoading(false);
+    authStore.setLoading(false);
     
     if (response.status === 204) {
       return null;
@@ -18,7 +28,7 @@ async function fetchWithLoadingState(url, options = {}) {
 
     return await response.json();
   } catch (error) {
-    useAuthStore().setLoading(false);
+    authStore.setLoading(false);
     toast.error(`Operation failed: ${error.message}`, {
       position: "top-right",
       timeout: 3000,
@@ -28,21 +38,17 @@ async function fetchWithLoadingState(url, options = {}) {
 }
 
 export async function fetchUser(accessToken) {
-  const url = `/api/user`;
-  const options = {
-    headers: {
-      Authorization: `token ${accessToken}`,
-    },
-  };
-  return await fetchWithLoadingState(url, options);
+  const url = environment === 'production' ? prodEndpoints.getUser : devEndpoints.getUser;
+  return await fetchWithLoadingState(url, {});
 }
 
 export async function fetchGists(accessToken) {
   const timestamp = new Date().getTime();
-  const url = `/api/gists?timestamp=${timestamp}`;
+  let url = environment === 'production' ? prodEndpoints.getGists : devEndpoints.getGists;
+  url = `${url}?timestamp=${timestamp}`;
   const options = {
     headers: {
-      Authorization: `token ${accessToken}`
+      'Cache-Control': 'no-cache'
     },
   };
   return await fetchWithLoadingState(url, options);
@@ -50,23 +56,19 @@ export async function fetchGists(accessToken) {
 
 export async function fetchGistDetail(id) {
   const timestamp = new Date().getTime();
-  const url = `/api/gists/${id}?timestamp=${timestamp}`;
-  const options = {
-    headers: {
-      Authorization: `token ${accessToken}`
-    }
-  };
-  return await fetchWithLoadingState(url, options);
+  let url = environment === 'production' ? prodEndpoints.getGists : devEndpoints.getGists;
+  url = `${url}/${id}?timestamp=${timestamp}`;
+  return await fetchWithLoadingState(url, {});
 }
 
 export async function editGist(id, updatedFiles){
   const toast = useToast();
-  const url = `/api/gists/${id}`;
+  let url = environment === 'production' ? prodEndpoints.getGists : devEndpoints.getGists;
+  url = `${url}/${id}`;
   const options = {
     method: 'PATCH',
     headers: {
       'Accept': 'application/vnd.github+json',
-      Authorization: `token ${accessToken}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
@@ -83,16 +85,12 @@ export async function editGist(id, updatedFiles){
 
 export async function deleteGist(id){
   const toast = useToast();
-  const url = `/api/gists/${id}`;
+  let url = environment === 'production' ? prodEndpoints.getGists : devEndpoints.getGists;
+  url = `${url}/${id}`;
   const options = {
-    method: 'DELETE',
-    headers: {
-      Authorization: `token ${accessToken}`,
-    }
+    method: 'DELETE'
   };
-  
   const data = await fetchWithLoadingState(url, options);
-  
   toast.success("Delete was successful", {
     position: "top-right",
     timeout: 3000,
