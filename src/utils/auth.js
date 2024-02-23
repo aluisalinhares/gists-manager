@@ -1,9 +1,12 @@
 const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID;
 const clientSecret = process.env.VUE_APP_GITHUB_CLIENT_SECRET;
-
+const environment = process.env.NODE_ENV;
 export async function fetchAccessToken(code) {
   try {
-    const url = "/api/access_token"
+    const url =
+      environment === "production"
+        ? "https://gists-manager-be.netlify.app/api/access_token"
+        : "/api/access_token";
     const response = await fetch(url, {
       method: "POST",
       headers: {
