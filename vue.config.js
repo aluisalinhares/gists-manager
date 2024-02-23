@@ -1,6 +1,6 @@
-const dotenv = require('dotenv').config();
-const { createProxyMiddleware } = require('http-proxy-middleware');
-
+const dotenv = require("dotenv").config();
+const BASE_URL = process.env.BASE_URL;
+console.log("here BASE_URL: ", BASE_URL);
 module.exports = {
   publicPath: process.env.NODE_ENV === "production" ? "/gists-manager/" : "/",
   chainWebpack: (config) => {
@@ -17,33 +17,33 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      '/api/access_token': {
-        target: 'https://github.com',
+      "/api/access_token": {
+        target: `https://github.com${BASE_URL}`,
         changeOrigin: true,
         pathRewrite: {
-          '^/api/access_token': '/login/oauth/access_token'
+          "^/api/access_token": "login/oauth/access_token",
         },
       },
-      '/api/gists': {
-        target: 'https://api.github.com',
+      "/api/gists": {
+        target: "https://api.github.com",
         changeOrigin: true,
         pathRewrite: {
-          '^/api/gists': '/gists'
+          "^/api/gists": "/gists",
         },
         onProxyReq: (proxyReq) => {
-          proxyReq.setHeader('Cache-Control', 'no-cache');
-        }
+          proxyReq.setHeader("Cache-Control", "no-cache");
+        },
       },
-      '/api/user': {
-        target: 'https://api.github.com',
+      "/api/user": {
+        target: "https://api.github.com",
         changeOrigin: true,
         pathRewrite: {
-          '^/api/user': '/user'
+          "^/api/user": "/user",
         },
         onProxyReq: (proxyReq) => {
-          proxyReq.setHeader('Cache-Control', 'no-cache');
-        }
-      }
-    }
+          proxyReq.setHeader("Cache-Control", "no-cache");
+        },
+      },
+    },
   },
 };
