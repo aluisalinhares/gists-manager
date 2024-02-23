@@ -5,8 +5,8 @@ const environment = process.env.NODE_ENV;
 
 async function fetchWithLoadingState(url, options = {}) {
   const toast = useToast();
+  const authStore = useAuthStore();
   try {
-    const authStore = useAuthStore();
     const accessToken = authStore.accessToken;
     authStore.setLoading(true);
     const requestOptions = {
