@@ -4,7 +4,7 @@ import { devEndpoints, prodEndpoints } from "./endpoints";
 
 export async function fetchAccessToken(code) {
   try {
-    const url = process.env.NODE_ENV === "production" ? prodEndpoints.accessToken : devEndpoints.accessToken;
+    const url = "/api/access_token"
     const response = await fetch(url, {
       method: "POST",
       headers: {
