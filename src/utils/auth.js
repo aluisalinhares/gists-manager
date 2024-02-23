@@ -2,6 +2,7 @@
 
 const clientId = process.env.VUE_APP_GITHUB_CLIENT_ID;
 const clientSecret = process.env.VUE_APP_GITHUB_CLIENT_SECRET;
+const baseUrl = process.env.BASE_URL;
 export async function fetchAccessToken(code) {
     try {
       const response = await fetch('/api/access_token', {

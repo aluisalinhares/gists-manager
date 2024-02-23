@@ -5,6 +5,8 @@ import GistDetail from '@/views/GistDetail.vue';
 import EditGist from '@/views/EditGist.vue';
 import { useAuthStore } from '@/store';
 
+const BASE_URL = process.env.BASE_URL;
+
 const routes = [
   {
     path: '/',
@@ -29,8 +31,9 @@ const routes = [
   }
 ];
 
+console.log("base url: ", BASE_URL)
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(BASE_URL),
   routes
 });
 

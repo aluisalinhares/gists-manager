@@ -1,4 +1,3 @@
-const BASE_URL = "https://api.github.com";
 const accessToken = localStorage.getItem("accessToken");
 import { useAuthStore } from "@/store";
 import { useToast } from "vue-toastification";
